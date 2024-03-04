@@ -88,7 +88,10 @@
                   else
                     drv;
                 lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
-                treesitter-parsers = pkgs.symlinkJoin { name = "treesitter-parsers"; paths = treesitter.dependencies; };
+                treesitter-parsers = pkgs.symlinkJoin {
+                  name = "treesitter-parsers";
+                  paths = treesitter.dependencies;
+                };
               in
                 /* lua */ ''
                 require("lazy").setup({
@@ -122,8 +125,11 @@
                     -- and setup parser paths
                     { 
                       "nvim-treesitter/nvim-treesitter",
-                      init = function()
-                        require("lazy.core.loader").add_to_rtp("${treesitter-parsers}")
+                      lazy = false,
+                      config = function(opts)
+                        vim.opt.runtimepath:append("${treesitter}")
+                        vim.opt.runtimepath:append("${treesitter-parsers}")
+                        require("nvim-treesitter.configs").setup(opts)
                       end,
                       opts = {
                         auto_install = false,
