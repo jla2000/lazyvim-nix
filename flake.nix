@@ -122,9 +122,8 @@
                     -- and setup parser paths
                     { 
                       "nvim-treesitter/nvim-treesitter",
-                      config = function(opts)
-                        vim.opt.runtimepath:append("${treesitter-parsers}")
-                        require("nvim-treesitter.configs").setup(opts)
+                      init = function()
+                        require("lazy.core.loader").add_to_rtp("${treesitter-parsers}")
                       end,
                       opts = {
                         auto_install = false,
