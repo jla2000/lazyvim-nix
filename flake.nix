@@ -34,6 +34,7 @@
               let
                 treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
                 plugins = with pkgs.vimPlugins; [
+                  lazy-nvim
                   # LazyVim
                   LazyVim
                   cmp-buffer
@@ -94,6 +95,10 @@
                 };
               in
                 /* lua */ ''
+                vim.opt.rtp:prepend("${treesitter}")
+                vim.opt.rtp:prepend("${treesitter-parsers}")
+                vim.opt.rtp:prepend("${lazyPath}")
+
                 require("lazy").setup({
                   defaults = {
                     lazy = true,
@@ -125,12 +130,6 @@
                     -- and setup parser paths
                     { 
                       "nvim-treesitter/nvim-treesitter",
-                      lazy = false,
-                      config = function(opts)
-                        vim.opt.runtimepath:append("${treesitter}")
-                        vim.opt.runtimepath:append("${treesitter-parsers}")
-                        require("nvim-treesitter.configs").setup(opts)
-                      end,
                       opts = {
                         auto_install = false,
                         ensure_installed = {},
