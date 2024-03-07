@@ -24,8 +24,10 @@
               # LazyVim
               lua-language-server
               stylua
+              lazygit
               # Telescope
               ripgrep
+              fd
             ];
 
             extraPlugins = [ pkgs.vimPlugins.lazy-nvim ];
@@ -75,6 +77,7 @@
                   vim-illuminate
                   vim-startuptime
                   which-key-nvim
+                  project-nvim
                   { name = "LuaSnip"; path = luasnip; }
                   { name = "catppuccin"; path = catppuccin-nvim; }
                   { name = "mini.ai"; path = mini-nvim; }
@@ -107,7 +110,7 @@
                     path = "${lazyPath}",
                     patterns = { "." },
                     -- fallback to download
-                    fallback = true,
+                    fallback = false,
                   },
                   spec = {
                     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
