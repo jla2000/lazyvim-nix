@@ -118,6 +118,7 @@ return {
   },
   {
     "jla2000/msr-nvim-tools",
+    enabled = false,
     ft = "cpp",
     dir = "~/code/msr-nvim-tools",
     config = true,

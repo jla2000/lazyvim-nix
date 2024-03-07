@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "cmake-gtest-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709236634,
+        "narHash": "sha256-nW8GaC3UFsM0Wl59KIIrM9paSNIWcAhyM4YbwiztE0Q=",
+        "owner": "hfn92",
+        "repo": "cmake-gtest.nvim",
+        "rev": "872379aab0e6d0dfe40da4cd810ab61d78c3ec70",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hfn92",
+        "repo": "cmake-gtest.nvim",
+        "type": "github"
+      }
+    },
     "cmake-tools-nvim": {
       "flake": false,
       "locked": {
@@ -295,6 +311,7 @@
     "root": {
       "inputs": {
         "blame-me-nvim": "blame-me-nvim",
+        "cmake-gtest-nvim": "cmake-gtest-nvim",
         "cmake-tools-nvim": "cmake-tools-nvim",
         "flake-parts": "flake-parts",
         "huez-nvim": "huez-nvim",

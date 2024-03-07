@@ -14,6 +14,7 @@
     blame-me-nvim = { url = "github:hougesen/blame-me.nvim"; flake = false; };
     cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
     symbol-usage-nvim = { url = "github:Wansmer/symbol-usage.nvim"; flake = false; };
+    cmake-gtest-nvim = { url = "github:hfn92/cmake-gtest.nvim"; flake = false; };
   };
 
   outputs = { self, nixpkgs, nixvim, flake-parts, ... } @ inputs:
@@ -30,6 +31,7 @@
           huez-nvim = pkgs.vimUtils.buildVimPlugin { name = "huez.nvim"; src = inputs.huez-nvim; };
           blame-me-nvim = pkgs.vimUtils.buildVimPlugin { name = "blame-me.nvim"; src = inputs.blame-me-nvim; };
           cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
+          cmake-gtest-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-gtest.nvim"; src = inputs.cmake-gtest-nvim; };
           symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
           luaconfig = pkgs.stdenv.mkDerivation {
             name = "luaconfig";
@@ -45,6 +47,7 @@
               lua-language-server
               stylua
               lazygit
+              clang-tools
               # Telescope
               ripgrep
               fd
@@ -57,15 +60,17 @@
                 treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
                 plugins = with pkgs.vimPlugins; [
                   # Extra plugins
-                  { name = "huez.nvim"; path = huez-nvim; }
-                  { name = "blame-me.nvim"; path = blame-me-nvim; }
                   oil-nvim
                   neorg
+                  none-ls-nvim
                   marks-nvim
                   overseer-nvim
                   better-escape-nvim
+                  { name = "huez.nvim"; path = huez-nvim; }
+                  { name = "blame-me.nvim"; path = blame-me-nvim; }
                   { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
                   { name = "symbol-usage.nvim"; path = symbol-usage-nvim; }
+                  { name = "cmake-gtest.nvim"; path = cmake-gtest-nvim; }
 
                   # LazyVim
                   LazyVim
