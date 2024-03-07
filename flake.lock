@@ -359,7 +359,8 @@
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
-        "symbol-usage-nvim": "symbol-usage-nvim"
+        "symbol-usage-nvim": "symbol-usage-nvim",
+        "yanky-nvim": "yanky-nvim"
       }
     },
     "symbol-usage-nvim": {
@@ -420,6 +421,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "yanky-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706896927,
+        "narHash": "sha256-6OQegaggOD70B7OZnYwzMvusO2K+/kphQiiOCd+W/Zw=",
+        "owner": "gbprod",
+        "repo": "yanky.nvim",
+        "rev": "7c5cbf0122ff2dfbb6a92f14885894f65949cc8b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gbprod",
+        "repo": "yanky.nvim",
         "type": "github"
       }
     }

@@ -17,6 +17,7 @@
     cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
     symbol-usage-nvim = { url = "github:Wansmer/symbol-usage.nvim"; flake = false; };
     cmake-gtest-nvim = { url = "github:hfn92/cmake-gtest.nvim"; flake = false; };
+    yanky-nvim = { url = "github:gbprod/yanky.nvim"; flake = false; };
   };
 
   outputs = { self, nixpkgs, nixvim, flake-parts, ... } @ inputs:
@@ -35,6 +36,7 @@
           cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
           cmake-gtest-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-gtest.nvim"; src = inputs.cmake-gtest-nvim; };
           symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
+          yanky-nvim = pkgs.vimUtils.buildVimPlugin { name = "yanky.nvim"; src = inputs.yanky-nvim; };
           luaconfig = pkgs.stdenv.mkDerivation {
             name = "luaconfig";
             src = ./config;
@@ -50,6 +52,8 @@
               stylua
               lazygit
               clang-tools
+              nil
+              nixpkgs-fmt
               # Telescope
               ripgrep
               fd
@@ -72,6 +76,7 @@
                   overseer-nvim
                   better-escape-nvim
                   clangd_extensions-nvim
+                  { name = "yanky.nvim"; path = yanky-nvim; }
                   { name = "huez.nvim"; path = huez-nvim; }
                   { name = "blame-me.nvim"; path = blame-me-nvim; }
                   { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
@@ -141,9 +146,6 @@
                 };
               in
                 /* lua */ ''
-                vim.cmd [[inoremap jk <ESC>]]
-                vim.print("${lazyPath}")
-                
                 require("lazy").setup({
                   defaults = {
                     lazy = true,
@@ -157,7 +159,7 @@
                   },
                   spec = {
                     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-                    { import = "lazyvim.plugins.extras.coding.yanky" },
+                    --{ import = "lazyvim.plugins.extras.coding.yanky" },
                     { import = "lazyvim.plugins.extras.dap.core" },
                     { import = "lazyvim.plugins.extras.lang.clangd" },
                     { import = "lazyvim.plugins.extras.lang.cmake" },
@@ -167,7 +169,6 @@
                     { import = "lazyvim.plugins.extras.lang.yaml" },
                     { import = "lazyvim.plugins.extras.lsp.none-ls" },
                     { import = "lazyvim.plugins.extras.test.core" },
-                    { import = "lazyvim.plugins.extras.util.dot" },
                     { import = "lazyvim.plugins.extras.util.project" },
                     -- The following configs are needed for fixing lazyvim on nix
                     -- force enable telescope-fzf-native.nvim
