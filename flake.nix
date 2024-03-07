@@ -8,6 +8,8 @@
     nixvim.inputs.flake-parts.follows = "flake-parts";
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+    neovim-nightly.url = "github:neovim/neovim?dir=contrib";
+    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
 
     # Plugins
     huez-nvim = { url = "github:vague2k/huez.nvim"; flake = false; };
@@ -53,6 +55,7 @@
               fd
             ];
 
+            package = inputs.neovim-nightly.packages.${system}.neovim;
             extraPlugins = [ pkgs.vimPlugins.lazy-nvim ];
 
             extraConfigLua =
@@ -62,10 +65,13 @@
                   # Extra plugins
                   oil-nvim
                   neorg
+                  crates-nvim
+                  rust-tools-nvim
                   none-ls-nvim
                   marks-nvim
                   overseer-nvim
                   better-escape-nvim
+                  clangd_extensions-nvim
                   { name = "huez.nvim"; path = huez-nvim; }
                   { name = "blame-me.nvim"; path = blame-me-nvim; }
                   { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
@@ -151,6 +157,18 @@
                   },
                   spec = {
                     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+                    { import = "lazyvim.plugins.extras.coding.yanky" },
+                    { import = "lazyvim.plugins.extras.dap.core" },
+                    { import = "lazyvim.plugins.extras.lang.clangd" },
+                    { import = "lazyvim.plugins.extras.lang.cmake" },
+                    { import = "lazyvim.plugins.extras.lang.json" },
+                    { import = "lazyvim.plugins.extras.lang.markdown" },
+                    { import = "lazyvim.plugins.extras.lang.rust" },
+                    { import = "lazyvim.plugins.extras.lang.yaml" },
+                    { import = "lazyvim.plugins.extras.lsp.none-ls" },
+                    { import = "lazyvim.plugins.extras.test.core" },
+                    { import = "lazyvim.plugins.extras.util.dot" },
+                    { import = "lazyvim.plugins.extras.util.project" },
                     -- The following configs are needed for fixing lazyvim on nix
                     -- force enable telescope-fzf-native.nvim
                     { "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
