@@ -69,7 +69,6 @@
 
             extraConfigLua =
               let
-                treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
                 plugins = with pkgs.vimPlugins; [
                   # Extra plugins
                   oil-nvim
@@ -113,7 +112,7 @@
                   nvim-lspconfig
                   nvim-notify
                   nvim-spectre
-                  treesitter
+                  nvim-treesitter
                   nvim-treesitter-context
                   nvim-treesitter-textobjects
                   nvim-ts-autotag
@@ -147,7 +146,7 @@
                 lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
                 treesitter-parsers = pkgs.symlinkJoin {
                   name = "treesitter-parsers";
-                  paths = treesitter.dependencies;
+                  paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
                 };
               in
                 /* lua */ ''
@@ -168,7 +167,6 @@
                     { import = "lazyvim.plugins.extras.dap.core" },
                     { import = "lazyvim.plugins.extras.lang.clangd" },
                     { import = "lazyvim.plugins.extras.lang.cmake" },
-                    { import = "lazyvim.plugins.extras.lang.json" },
                     { import = "lazyvim.plugins.extras.lang.markdown" },
                     { import = "lazyvim.plugins.extras.lang.rust" },
                     { import = "lazyvim.plugins.extras.lang.yaml" },
@@ -190,10 +188,7 @@
                         -- Put treesitter path as first entry in rtp
                         vim.opt.rtp:prepend("${treesitter-parsers}")
                       end,
-                      opts = { 
-                        auto_install = false,
-                        ensure_installed = {},
-                      },
+                      opts = { auto_install = false, ensure_installed = {} },
                     },
                   },
                   performance = {
