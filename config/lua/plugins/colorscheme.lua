@@ -22,7 +22,7 @@ return {
     "LazyVim/LazyVim",
     dependencies = "vague2k/huez.nvim",
     opts = {
-      colorscheme = "tokyonight-storm",
+      colorscheme = "retrobox",
       news = { lazyvim = false },
     },
   },
