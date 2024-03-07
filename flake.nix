@@ -11,7 +11,7 @@
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Plugins
+    # Plugins not available in nixpkgs
     huez-nvim = { url = "github:vague2k/huez.nvim"; flake = false; };
     blame-me-nvim = { url = "github:hougesen/blame-me.nvim"; flake = false; };
     cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
@@ -31,12 +31,15 @@
 
       perSystem = { pkgs, lib, system, ... }:
         let
+          # Build plugins from github
           huez-nvim = pkgs.vimUtils.buildVimPlugin { name = "huez.nvim"; src = inputs.huez-nvim; };
           blame-me-nvim = pkgs.vimUtils.buildVimPlugin { name = "blame-me.nvim"; src = inputs.blame-me-nvim; };
           cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
           cmake-gtest-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-gtest.nvim"; src = inputs.cmake-gtest-nvim; };
           symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
           yanky-nvim = pkgs.vimUtils.buildVimPlugin { name = "yanky.nvim"; src = inputs.yanky-nvim; };
+
+          # Create derivation containing the lua configuration files
           luaconfig = pkgs.stdenv.mkDerivation {
             name = "luaconfig";
             src = ./config;
@@ -45,18 +48,20 @@
               cp -r ./ $out/
             '';
           };
+
           config = {
             extraPackages = with pkgs; [
-              # LazyVim
-              lua-language-server
-              stylua
+              # LazyVim dependencies
               lazygit
-              clang-tools
-              nil
-              nixpkgs-fmt
-              # Telescope
               ripgrep
               fd
+              # LSP's
+              lua-language-server
+              clang-tools
+              nil
+              # Formatters
+              stylua
+              nixpkgs-fmt
             ];
 
             package = inputs.neovim-nightly.packages.${system}.neovim;
@@ -182,6 +187,7 @@
                     { 
                       "nvim-treesitter/nvim-treesitter",
                       init = function()
+                        -- Put treesitter path as first entry in rtp
                         vim.opt.rtp:prepend("${treesitter-parsers}")
                       end,
                       opts = { 
@@ -192,9 +198,7 @@
                   },
                   performance = {
                     rtp = {
-                      paths = {
-                        "${luaconfig}"
-                      },
+                      paths = { "${luaconfig}" },
                       disabled_plugins = {
                         "gzip",
                         "matchit",
