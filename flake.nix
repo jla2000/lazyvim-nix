@@ -109,13 +109,6 @@
                     -- fallback to download
                     fallback = true,
                   },
-                  performance = {
-                    rtp = {
-                      paths = {
-                        "${treesitter-parsers}",
-                      },
-                    },
-                  },
                   spec = {
                     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
                     -- The following configs are needed for fixing lazyvim on nix
@@ -129,6 +122,9 @@
                     -- put this line at the end of spec to clear ensure_installed
                     { 
                       "nvim-treesitter/nvim-treesitter",
+                      init = function()
+                        vim.opt.rtp:prepend("${treesitter-parsers}")
+                      end,
                       opts = { 
                         auto_install = false,
                         ensure_installed = {},
