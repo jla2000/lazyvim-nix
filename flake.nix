@@ -34,14 +34,15 @@
               let
                 treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
                 plugins = with pkgs.vimPlugins; [
-                  lazy-nvim
                   # LazyVim
                   LazyVim
+                  bufferline-nvim
                   cmp-buffer
                   cmp-nvim-lsp
                   cmp-path
                   cmp_luasnip
                   conform-nvim
+                  dashboard-nvim
                   dressing-nvim
                   flash-nvim
                   friendly-snippets
@@ -95,10 +96,8 @@
                 };
               in
                 /* lua */ ''
-                vim.opt.rtp:prepend("${treesitter}")
-                vim.opt.rtp:prepend("${treesitter-parsers}")
-                vim.opt.rtp:prepend("${lazyPath}")
-
+                vim.cmd [[inoremap jk <ESC>]]
+                
                 require("lazy").setup({
                   defaults = {
                     lazy = true,
@@ -110,9 +109,15 @@
                     -- fallback to download
                     fallback = true,
                   },
+                  performance = {
+                    rtp = {
+                      paths = {
+                        "${treesitter-parsers}",
+                      },
+                    },
+                  },
                   spec = {
                     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-
                     -- The following configs are needed for fixing lazyvim on nix
                     -- force enable telescope-fzf-native.nvim
                     { "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
@@ -121,23 +126,17 @@
                     { "williamboman/mason.nvim", enabled = false },
                     -- uncomment to import/override with your plugins
                     -- { import = "plugins" },
-
-                    -- Disabled plugins
-                    { "nvim-dev/dashboard-nvim", enabled = false },
-                    { "akinsho/bufferline.nvim", enabled = false },
-
                     -- put this line at the end of spec to clear ensure_installed
-                    -- and setup parser paths
                     { 
                       "nvim-treesitter/nvim-treesitter",
-                      opts = {
+                      opts = { 
                         auto_install = false,
                         ensure_installed = {},
-                        parser_install_dir = "${treesitter-parsers}",
-                      }
+                      },
                     },
                   },
-                })'';
+                })
+              '';
           };
           nixvim' = nixvim.legacyPackages."${system}";
           nvim = nixvim'.makeNixvim config;
