@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "blame-me-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707783960,
+        "narHash": "sha256-nUkbtxqvuJPBgQajjxhoVLsI/zWexIH1A8eecNxBFyI=",
+        "owner": "hougesen",
+        "repo": "blame-me.nvim",
+        "rev": "e62ce3a5013f6a02d28eccbfc007e0abb456d53c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hougesen",
+        "repo": "blame-me.nvim",
+        "type": "github"
+      }
+    },
+    "cmake-tools-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706886423,
+        "narHash": "sha256-e16I51FbT0itLkyornd9RjShXmLxUzPrygFYVc66xoY=",
+        "owner": "Civitasv",
+        "repo": "cmake-tools.nvim",
+        "rev": "055d7bb37d5c4038ce1e400656b6504602934ce7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Civitasv",
+        "repo": "cmake-tools.nvim",
+        "type": "github"
+      }
+    },
     "devshell": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -151,6 +183,22 @@
         "type": "github"
       }
     },
+    "huez-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709183028,
+        "narHash": "sha256-k9y9SwEC4vlvL2txEVEHvMRUrCKVxD6OSBvqOeoVMYA=",
+        "owner": "vague2k",
+        "repo": "huez.nvim",
+        "rev": "cc18cb58572ecb0ac4d0da3e2e8720d58b79bafc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vague2k",
+        "repo": "huez.nvim",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -246,9 +294,29 @@
     },
     "root": {
       "inputs": {
+        "blame-me-nvim": "blame-me-nvim",
+        "cmake-tools-nvim": "cmake-tools-nvim",
         "flake-parts": "flake-parts",
+        "huez-nvim": "huez-nvim",
         "nixpkgs": "nixpkgs",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "symbol-usage-nvim": "symbol-usage-nvim"
+      }
+    },
+    "symbol-usage-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1709530001,
+        "narHash": "sha256-CPUhvJZcmCKnLUX3NtpV8RE5mIMrN1wURJmTE4tO05k=",
+        "owner": "Wansmer",
+        "repo": "symbol-usage.nvim",
+        "rev": "4c79eff2d9a817dfdb2777826af36a4bb1d5a8f0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Wansmer",
+        "repo": "symbol-usage.nvim",
+        "type": "github"
       }
     },
     "systems": {

@@ -1,14 +1,22 @@
 {
   description = "Setup LazyVim using NixVim";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  inputs.nixvim.url = "github:nix-community/nixvim";
-  inputs.nixvim.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.nixvim.inputs.flake-parts.follows = "flake-parts";
-  inputs.flake-parts.url = "github:hercules-ci/flake-parts";
-  inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim.inputs.flake-parts.follows = "flake-parts";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
-  outputs = { self, nixpkgs, nixvim, flake-parts } @ inputs:
+    # Plugins
+    huez-nvim = { url = "github:vague2k/huez.nvim"; flake = false; };
+    blame-me-nvim = { url = "github:hougesen/blame-me.nvim"; flake = false; };
+    cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
+    symbol-usage-nvim = { url = "github:Wansmer/symbol-usage.nvim"; flake = false; };
+  };
+
+  outputs = { self, nixpkgs, nixvim, flake-parts, ... } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -19,6 +27,18 @@
 
       perSystem = { pkgs, lib, system, ... }:
         let
+          huez-nvim = pkgs.vimUtils.buildVimPlugin { name = "huez.nvim"; src = inputs.huez-nvim; };
+          blame-me-nvim = pkgs.vimUtils.buildVimPlugin { name = "blame-me.nvim"; src = inputs.blame-me-nvim; };
+          cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
+          symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
+          luaconfig = pkgs.stdenv.mkDerivation {
+            name = "luaconfig";
+            src = ./config;
+            installPhase = ''
+              mkdir -p $out/
+              cp -r ./ $out/
+            '';
+          };
           config = {
             extraPackages = with pkgs; [
               # LazyVim
@@ -36,6 +56,17 @@
               let
                 treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
                 plugins = with pkgs.vimPlugins; [
+                  # Extra plugins
+                  { name = "huez.nvim"; path = huez-nvim; }
+                  { name = "blame-me.nvim"; path = blame-me-nvim; }
+                  oil-nvim
+                  neorg
+                  marks-nvim
+                  overseer-nvim
+                  better-escape-nvim
+                  { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
+                  { name = "symbol-usage.nvim"; path = symbol-usage-nvim; }
+
                   # LazyVim
                   LazyVim
                   bufferline-nvim
@@ -100,6 +131,7 @@
               in
                 /* lua */ ''
                 vim.cmd [[inoremap jk <ESC>]]
+                vim.print("${lazyPath}")
                 
                 require("lazy").setup({
                   defaults = {
@@ -121,7 +153,7 @@
                     { "williamboman/mason-lspconfig.nvim", enabled = false },
                     { "williamboman/mason.nvim", enabled = false },
                     -- uncomment to import/override with your plugins
-                    -- { import = "plugins" },
+                    { import = "plugins" },
                     -- put this line at the end of spec to clear ensure_installed
                     { 
                       "nvim-treesitter/nvim-treesitter",
@@ -134,8 +166,24 @@
                       },
                     },
                   },
-                })
-              '';
+                  performance = {
+                    rtp = {
+                      paths = {
+                        "${luaconfig}"
+                      },
+                      disabled_plugins = {
+                        "gzip",
+                        "matchit",
+                        "matchparen",
+                        "netrwPlugin",
+                        "tarPlugin",
+                        "tohtml",
+                        "tutor",
+                        "zipPlugin",
+                      }
+                    }
+                  },
+                })'';
           };
           nixvim' = nixvim.legacyPackages."${system}";
           nvim = nixvim'.makeNixvim config;
