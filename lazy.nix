@@ -21,6 +21,9 @@ let
     better-escape-nvim
     clangd_extensions-nvim
     tmux-navigator
+    nvim-dap
+    nvim-dap-ui
+    nvim-dap-virtual-text
     { name = "yanky.nvim"; path = yanky-nvim; }
     { name = "huez.nvim"; path = huez-nvim; }
     { name = "blame-me.nvim"; path = blame-me-nvim; }
@@ -104,6 +107,10 @@ let
     '';
   };
 
+  # codelldb executable is not exported by default
+  codelldb = (pkgs.writeShellScriptBin "codelldb" ''
+    ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
+  '');
 in
 {
   extraPackages = with pkgs; [
@@ -115,6 +122,8 @@ in
     lua-language-server
     clang-tools
     nil
+    # Debuggers
+    codelldb
     # Formatters
     stylua
     nixpkgs-fmt
@@ -153,6 +162,7 @@ in
         -- disable mason.nvim, use config.extraPackages
         { "williamboman/mason-lspconfig.nvim", enabled = false },
         { "williamboman/mason.nvim", enabled = false },
+        { "jaybaby/mason-nvim-dap.nvim", enabled = false },
         -- uncomment to import/override with your plugins
         { import = "plugins" },
         -- put this line at the end of spec to clear ensure_installed
