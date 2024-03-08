@@ -109,7 +109,7 @@ return {
           command = "doxyformat",
           args = { "-i", "$FILENAME" },
           stdin = false,
-          condition = function(_, ctx)
+          condition = function(ctx)
             return string.match(ctx.dirname, "amsr%-vector%-fs%-ipcbinding") ~= nil
           end,
         },
