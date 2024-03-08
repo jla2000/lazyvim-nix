@@ -39,13 +39,19 @@
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
 
+          # Derivation containing all runtime dependencies
+          runtimePath = (import ./runtime.nix { inherit pkgs; });
+
           neovimNightly = inputs.neovim-nightly.packages.${system}.default;
           neovimWrapped = pkgs.wrapNeovim neovimNightly {
             configure = {
-              customRC = ''
+              customRC = /* vim */ ''
+                " Populate paths to neovim
                 let g:lazy_path = "${lazyPath}"
                 let g:config_path = "${./config}"
                 let g:treesitter_path = "${treesitterPath}"
+                let g:runtime_path = "${runtimePath}"
+                " Begin initialization
                 source ${./config/init.lua}
               '';
               packages.all.start = [ pkgs.vimPlugins.lazy-nvim ];
@@ -56,7 +62,7 @@
           packages = rec {
             nvim = pkgs.writeShellApplication {
               name = "nvim";
-              runtimeInputs = [ (import ./runtime.nix { inherit pkgs; }) ];
+              runtimeInputs = [ runtimePath ];
               text = ''${neovimWrapped}/bin/nvim "$@"'';
             };
             default = nvim;
