@@ -20,6 +20,7 @@ pkgs.symlinkJoin {
     nil
     taplo
     rust-analyzer
+    marksman
 
     # Debuggers
     codelldb
@@ -27,5 +28,8 @@ pkgs.symlinkJoin {
     # Formatters
     stylua
     nixpkgs-fmt
+
+    # Linters
+    markdownlint-cli
   ];
 }

@@ -27,6 +27,7 @@ let
     flash-nvim
     friendly-snippets
     gitsigns-nvim
+    headlines-nvim
     indent-blankline-nvim
     lualine-nvim
     marks-nvim
