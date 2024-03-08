@@ -34,7 +34,9 @@
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
 
+          # Use nightly neovim only ;)
           neovimNightly = inputs.neovim-nightly.packages.${system}.default;
+          # Wrap neovim with custom init and plugins
           neovimWrapped = pkgs.wrapNeovim neovimNightly {
             configure = {
               customRC = /* vim */ ''
@@ -52,6 +54,7 @@
         in
         {
           packages = rec {
+            # Wrap neovim again to make runtime dependencies available
             nvim = pkgs.writeShellApplication {
               name = "nvim";
               runtimeInputs = [ runtimePath ];
