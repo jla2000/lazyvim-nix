@@ -26,11 +26,11 @@
           pluginPath = import ./plugins.nix { inherit pkgs lib inputs; };
 
           # Derivation containing all runtime dependencies
-          runtimePath = (import ./runtime.nix { inherit pkgs; });
+          runtimePath = import ./runtime.nix { inherit pkgs; };
 
           # Link together all treesitter grammars into single derivation
           treesitterPath = pkgs.symlinkJoin {
-            name = "treesitter-parsers";
+            name = "lazyvim-nix-treesitter-parsers";
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
 
