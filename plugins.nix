@@ -9,49 +9,33 @@ let
   yanky-nvim = pkgs.vimUtils.buildVimPlugin { name = "yanky.nvim"; src = inputs.yanky-nvim; };
 in
 with pkgs.vimPlugins; [
-  # Extra plugins
-  oil-nvim
-  neorg
-  crates-nvim
-  rust-tools-nvim
-  none-ls-nvim
-  marks-nvim
-  overseer-nvim
+  LazyVim
   better-escape-nvim
   clangd_extensions-nvim
-  tmux-navigator
-  nvim-dap
-  nvim-dap-ui
-  nvim-dap-virtual-text
-  sqlite-lua
-  { name = "yanky.nvim"; path = yanky-nvim; }
-  { name = "huez.nvim"; path = huez-nvim; }
-  { name = "blame-me.nvim"; path = blame-me-nvim; }
-  { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
-  { name = "symbol-usage.nvim"; path = symbol-usage-nvim; }
-  { name = "cmake-gtest.nvim"; path = cmake-gtest-nvim; }
-
-  # LazyVim
-  LazyVim
-  bufferline-nvim
   cmp-buffer
   cmp-nvim-lsp
   cmp-path
   cmp_luasnip
   conform-nvim
-  dashboard-nvim
+  crates-nvim
   dressing-nvim
   flash-nvim
   friendly-snippets
   gitsigns-nvim
   indent-blankline-nvim
   lualine-nvim
+  marks-nvim
   neo-tree-nvim
   neoconf-nvim
   neodev-nvim
+  neorg
   noice-nvim
+  none-ls-nvim
   nui-nvim
   nvim-cmp
+  nvim-dap
+  nvim-dap-ui
+  nvim-dap-virtual-text
   nvim-lint
   nvim-lspconfig
   nvim-notify
@@ -62,23 +46,34 @@ with pkgs.vimPlugins; [
   nvim-ts-autotag
   nvim-ts-context-commentstring
   nvim-web-devicons
+  oil-nvim
+  overseer-nvim
   persistence-nvim
   plenary-nvim
+  project-nvim
+  rust-tools-nvim
+  sqlite-lua
   telescope-fzf-native-nvim
   telescope-nvim
+  tmux-navigator
   todo-comments-nvim
   tokyonight-nvim
   trouble-nvim
   vim-illuminate
   vim-startuptime
   which-key-nvim
-  project-nvim
   { name = "LuaSnip"; path = luasnip; }
+  { name = "blame-me.nvim"; path = blame-me-nvim; }
   { name = "catppuccin"; path = catppuccin-nvim; }
+  { name = "cmake-gtest.nvim"; path = cmake-gtest-nvim; }
+  { name = "cmake-tools.nvim"; path = cmake-tools-nvim; }
+  { name = "huez.nvim"; path = huez-nvim; }
   { name = "mini.ai"; path = mini-nvim; }
   { name = "mini.bufremove"; path = mini-nvim; }
   { name = "mini.comment"; path = mini-nvim; }
   { name = "mini.indentscope"; path = mini-nvim; }
   { name = "mini.pairs"; path = mini-nvim; }
   { name = "mini.surround"; path = mini-nvim; }
+  { name = "symbol-usage.nvim"; path = symbol-usage-nvim; }
+  { name = "yanky.nvim"; path = yanky-nvim; }
 ]
