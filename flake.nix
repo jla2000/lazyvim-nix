@@ -39,7 +39,7 @@
           lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
 
           # Link together all treesitter grammars into single derivation
-          treesitter-parsers = pkgs.symlinkJoin {
+          treesitterPath = pkgs.symlinkJoin {
             name = "treesitter-parsers";
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
@@ -55,7 +55,7 @@
               customRC = ''
                 let g:lazy_path = "${lazyPath}"
                 let g:config_path = "${./config}"
-                let g:parser_path = "${treesitter-parsers}"
+                let g:treesitter_path = "${treesitterPath}"
                 source ${./config/init.lua}
               '';
               packages.all.start = [ pkgs.vimPlugins.lazy-nvim ];

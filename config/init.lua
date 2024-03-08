@@ -33,7 +33,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       init = function()
         -- Put treesitter path as first entry in rtp
-        vim.opt.rtp:prepend(vim.g.parser_path)
+        vim.opt.rtp:prepend(vim.g.treesitter_path)
       end,
       opts = { auto_install = false, ensure_installed = {} },
     },
