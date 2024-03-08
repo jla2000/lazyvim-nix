@@ -23,6 +23,7 @@ with pkgs.vimPlugins; [
   nvim-dap
   nvim-dap-ui
   nvim-dap-virtual-text
+  sqlite-lua
   { name = "yanky.nvim"; path = yanky-nvim; }
   { name = "huez.nvim"; path = huez-nvim; }
   { name = "blame-me.nvim"; path = blame-me-nvim; }
