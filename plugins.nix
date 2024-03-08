@@ -35,6 +35,7 @@ let
     neoconf-nvim
     neodev-nvim
     neorg
+    nix-develop-nvim
     noice-nvim
     none-ls-nvim
     nui-nvim
