@@ -62,7 +62,7 @@ return {
   },
   {
     "Civitasv/cmake-tools.nvim",
-    event = "VeryLazy",
+    event = false,
     opts = {
       cmake_regenerate_on_save = false,
       cmake_build_options = { "-j12" },
