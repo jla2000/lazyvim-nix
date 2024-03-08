@@ -18,12 +18,7 @@
 
   outputs = { self, nixpkgs, flake-parts, ... } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "aarch64-darwin"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "x86_64-linux"
-      ];
+      systems = nixpkgs.lib.systems.flakeExposed;
 
       perSystem = { pkgs, lib, system, ... }:
         let
