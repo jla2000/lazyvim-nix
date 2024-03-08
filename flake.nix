@@ -39,34 +39,6 @@
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
 
-          # codelldb executable is not exported by default
-          codelldb = (pkgs.writeShellScriptBin "codelldb" ''
-            ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
-          '');
-
-          neovimRuntimeDeps = pkgs.symlinkJoin {
-            name = "neovim-runtime-deps";
-            paths = with pkgs; [
-              # LazyVim dependencies
-              lazygit
-              ripgrep
-              fd
-
-              # LSP's
-              lua-language-server
-              clang-tools
-              nil
-              taplo
-              rust-analyzer
-
-              # Debuggers
-              codelldb
-
-              # Formatters
-              stylua
-              nixpkgs-fmt
-            ];
-          };
           neovimNightly = inputs.neovim-nightly.packages.${system}.default;
           neovimWrapped = pkgs.wrapNeovim neovimNightly {
             configure = {
@@ -84,7 +56,7 @@
           packages = rec {
             nvim = pkgs.writeShellApplication {
               name = "nvim";
-              runtimeInputs = [ neovimRuntimeDeps ];
+              runtimeInputs = [ (import ./runtime.nix { inherit pkgs; }) ];
               text = ''${neovimWrapped}/bin/nvim "$@"'';
             };
             default = nvim;
