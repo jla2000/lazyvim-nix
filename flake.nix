@@ -3,9 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.flake-parts.follows = "flake-parts";
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
@@ -20,7 +17,7 @@
     yanky-nvim = { url = "github:gbprod/yanky.nvim"; flake = false; };
   };
 
-  outputs = { self, nixpkgs, nixvim, flake-parts, ... } @ inputs:
+  outputs = { self, nixpkgs, flake-parts, ... } @ inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -31,20 +28,67 @@
 
       perSystem = { pkgs, lib, system, ... }:
         let
-          nixvimModule = {
-            inherit pkgs;
-            module = import ./lazy.nix;
-            extraSpecialArgs = {
-              inherit inputs;
-              neovim-nightly = inputs.neovim-nightly.packages.${system}.neovim;
+          # List of all plugins to install
+          plugins = import ./plugins.nix { inherit pkgs inputs; };
+
+          # Link together all plugins into a single derivation
+          mkEntryFromDrv = drv:
+            if lib.isDerivation drv then
+              { name = "${lib.getName drv}"; path = drv; }
+            else
+              drv;
+          lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
+
+          # Link together all treesitter grammars into single derivation
+          treesitter-parsers = pkgs.symlinkJoin {
+            name = "treesitter-parsers";
+            paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+          };
+
+          # codelldb executable is not exported by default
+          codelldb = (pkgs.writeShellScriptBin "codelldb" ''
+            ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
+          '');
+
+          neovimNightly = inputs.neovim-nightly.packages.${system}.default;
+          neovimWrapped = pkgs.wrapNeovim neovimNightly {
+            configure = {
+              customRC = ''
+                let g:lazy_path = "${lazyPath}"
+                let g:config_path = "${./config}"
+                let g:parser_path = "${treesitter-parsers}"
+                source ${./config/init.lua}
+              '';
+              packages.all.start = [ pkgs.vimPlugins.lazy-nvim ];
             };
           };
-          nixvim' = nixvim.legacyPackages."${system}";
-          nvim = nixvim'.makeNixvimWithModule nixvimModule;
         in
         {
-          packages = {
-            inherit nvim;
+          packages = rec {
+            nvim = pkgs.writeShellApplication {
+              name = "nvim";
+              runtimeInputs = with pkgs; [
+                # LazyVim dependencies
+                lazygit
+                ripgrep
+                fd
+
+                # LSP's
+                lua-language-server
+                clang-tools
+                nil
+                taplo
+                rust-analyzer
+
+                # Debuggers
+                codelldb
+
+                # Formatters
+                stylua
+                nixpkgs-fmt
+              ];
+              text = ''${neovimWrapped}/bin/nvim "$@"'';
+            };
             default = nvim;
           };
         };
