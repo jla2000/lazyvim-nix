@@ -14,7 +14,6 @@
     cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
     symbol-usage-nvim = { url = "github:Wansmer/symbol-usage.nvim"; flake = false; };
     cmake-gtest-nvim = { url = "github:hfn92/cmake-gtest.nvim"; flake = false; };
-    yanky-nvim = { url = "github:gbprod/yanky.nvim"; flake = false; };
   };
 
   outputs = { self, nixpkgs, flake-parts, ... } @ inputs:

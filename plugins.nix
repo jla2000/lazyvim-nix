@@ -6,7 +6,6 @@ let
   cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
   cmake-gtest-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-gtest.nvim"; src = inputs.cmake-gtest-nvim; };
   symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
-  yanky-nvim = pkgs.vimUtils.buildVimPlugin { name = "yanky.nvim"; src = inputs.yanky-nvim; };
 in
 with pkgs.vimPlugins; [
   LazyVim
