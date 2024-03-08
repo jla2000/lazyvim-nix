@@ -22,16 +22,11 @@
 
       perSystem = { pkgs, lib, system, ... }:
         let
-          # List of all plugins to install
-          plugins = import ./plugins.nix { inherit pkgs inputs; };
+          # Derivation containing all plugins
+          pluginPath = import ./plugins.nix { inherit pkgs lib inputs; };
 
-          # Link together all plugins into a single derivation
-          mkEntryFromDrv = drv:
-            if lib.isDerivation drv then
-              { name = "${lib.getName drv}"; path = drv; }
-            else
-              drv;
-          lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
+          # Derivation containing all runtime dependencies
+          runtimePath = (import ./runtime.nix { inherit pkgs; });
 
           # Link together all treesitter grammars into single derivation
           treesitterPath = pkgs.symlinkJoin {
@@ -39,18 +34,15 @@
             paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
           };
 
-          # Derivation containing all runtime dependencies
-          runtimePath = (import ./runtime.nix { inherit pkgs; });
-
           neovimNightly = inputs.neovim-nightly.packages.${system}.default;
           neovimWrapped = pkgs.wrapNeovim neovimNightly {
             configure = {
               customRC = /* vim */ ''
                 " Populate paths to neovim
-                let g:lazy_path = "${lazyPath}"
                 let g:config_path = "${./config}"
-                let g:treesitter_path = "${treesitterPath}"
+                let g:plugin_path = "${pluginPath}"
                 let g:runtime_path = "${runtimePath}"
+                let g:treesitter_path = "${treesitterPath}"
                 " Begin initialization
                 source ${./config/init.lua}
               '';

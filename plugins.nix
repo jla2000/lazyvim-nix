@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, lib, ... }:
 let
   # Build plugins from github
   huez-nvim = pkgs.vimUtils.buildVimPlugin { name = "huez.nvim"; src = inputs.huez-nvim; };
@@ -6,8 +6,15 @@ let
   cmake-tools-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-tools.nvim"; src = inputs.cmake-tools-nvim; };
   cmake-gtest-nvim = pkgs.vimUtils.buildVimPlugin { name = "cmake-gtest.nvim"; src = inputs.cmake-gtest-nvim; };
   symbol-usage-nvim = pkgs.vimUtils.buildVimPlugin { name = "symbol-usage.nvim"; src = inputs.symbol-usage-nvim; };
+
+  mkEntryFromDrv = drv:
+    if lib.isDerivation drv then
+      { name = "${lib.getName drv}"; path = drv; }
+    else
+      drv;
 in
-with pkgs.vimPlugins; [
+# Link together all plugins into a single derivation
+pkgs.linkFarm "lazyvim-nix-plugins" (builtins.map mkEntryFromDrv (with pkgs.vimPlugins; [
   LazyVim
   better-escape-nvim
   clangd_extensions-nvim
@@ -75,4 +82,4 @@ with pkgs.vimPlugins; [
   { name = "mini.surround"; path = mini-nvim; }
   { name = "symbol-usage.nvim"; path = symbol-usage-nvim; }
   { name = "yanky.nvim"; path = yanky-nvim; }
-]
+]))

@@ -2,7 +2,7 @@ require("lazy").setup({
   defaults = { lazy = true },
   dev = {
     -- reuse files from pkgs.vimPlugins.*
-    path = vim.g.lazy_path,
+    path = vim.g.plugin_path,
     patterns = { "." },
     -- fallback to download
     fallback = false,
