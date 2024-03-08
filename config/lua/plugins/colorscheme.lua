@@ -32,7 +32,8 @@ return {
   {
     "vague2k/huez.nvim",
     opts = {
-      file_path = vim.fs.normalize("~/.nvim.huez.lua"),
+      -- Does not work somehow :(
+      -- file_path = vim.fs.normalize("~/.nvim.huez.lua"),
       picker = "telescope",
       fallback = "retrobox",
       omit = {
