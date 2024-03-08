@@ -20,6 +20,7 @@ let
     overseer-nvim
     better-escape-nvim
     clangd_extensions-nvim
+    tmux-navigator
     { name = "yanky.nvim"; path = yanky-nvim; }
     { name = "huez.nvim"; path = huez-nvim; }
     { name = "blame-me.nvim"; path = blame-me-nvim; }
