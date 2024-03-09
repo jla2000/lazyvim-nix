@@ -31,5 +31,8 @@ pkgs.symlinkJoin {
 
     # Linters
     markdownlint-cli
+
+    # Bundle also cmake
+    cmake
   ];
 }
