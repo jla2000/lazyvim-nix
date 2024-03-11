@@ -23,6 +23,7 @@ pkgs.symlinkJoin {
 
     # Linters
     markdownlint-cli
+    cmake-format
 
     # Bundle also cmake
     cmake
