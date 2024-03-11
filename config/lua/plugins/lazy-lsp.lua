@@ -3,6 +3,10 @@ return {
     "dundalek/lazy-lsp.nvim",
     dependencies = "neovim/nvim-lspconfig",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      preferred_servers = {
+        cpp = { "clangd" },
+      },
+    },
   },
 }
