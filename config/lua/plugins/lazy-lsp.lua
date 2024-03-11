@@ -5,7 +5,7 @@ return {
     event = "VeryLazy",
     opts = {
       preferred_servers = {
-        cpp = { "clangd" },
+        cpp = { "clangd", "marksman" },
       },
     },
   },
