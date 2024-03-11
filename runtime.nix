@@ -14,6 +14,14 @@ pkgs.symlinkJoin {
     ripgrep
     fd
 
+    # LSP's
+    lua-language-server
+    clang-tools
+    nil
+    taplo
+    rust-analyzer
+    marksman
+
     # Debuggers
     codelldb
 
