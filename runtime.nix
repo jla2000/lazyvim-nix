@@ -28,6 +28,7 @@ pkgs.symlinkJoin {
     # Formatters
     stylua
     nixpkgs-fmt
+    jq
 
     # Linters
     markdownlint-cli
