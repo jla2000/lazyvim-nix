@@ -13,6 +13,15 @@ return {
       render = "compact",
     },
   },
+  -- Enable for live command output.
+  -- {
+  --   "folke/noice.nvim",
+  --   opts = {
+  --     messages = {
+  --       enabled = false
+  --     }
+  --   }
+  -- },
   {
     "folke/flash.nvim",
     opts = {
