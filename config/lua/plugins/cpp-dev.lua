@@ -115,7 +115,7 @@ return {
           end,
         },
         cmake_format = {
-          prepend_args = { "--autosort", "true" },
+          prepend_args = { "--autosort=true" },
         },
       },
     },
