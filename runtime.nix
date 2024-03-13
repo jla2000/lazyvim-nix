@@ -27,6 +27,7 @@ pkgs.symlinkJoin {
     rust-analyzer
     marksman
     neocmakelsp
+    yaml-language-server
 
     # Debuggers
     codelldb
