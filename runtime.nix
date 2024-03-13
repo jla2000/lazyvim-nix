@@ -1,9 +1,8 @@
 { pkgs, ... }:
 let
-  # TODO: make lazy
   # codelldb executable is not exported by default
   codelldb = (pkgs.writeShellScriptBin "codelldb" ''
-    ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
+    nix shell --impure --expr 'with import (builtins.getFlake "nixpkgs") {}; writeShellScriptBin "codelldb" "''${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb $@"'
   '');
 
   # cmake-lint is used as cmakelint
