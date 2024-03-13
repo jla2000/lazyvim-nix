@@ -4,6 +4,11 @@ let
   codelldb = (pkgs.writeShellScriptBin "codelldb" ''
     ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
   '');
+
+  # cmake-lint is used as cmakelint
+  cmakelint = (pkgs.writeShellScriptBin "cmakelint" ''
+    ${pkgs.cmake-format}/bin/cmake-lint "$@"
+  '');
 in
 # Link together all runtime dependencies into one derivation
 pkgs.symlinkJoin {
@@ -34,6 +39,7 @@ pkgs.symlinkJoin {
     # Linters
     markdownlint-cli
     cmake-format
+    cmakelint
 
     # Bundle also cmake
     cmake
