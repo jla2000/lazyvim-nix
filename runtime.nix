@@ -21,6 +21,7 @@ pkgs.symlinkJoin {
     taplo
     rust-analyzer
     marksman
+    neocmakelsp
 
     # Debuggers
     codelldb
