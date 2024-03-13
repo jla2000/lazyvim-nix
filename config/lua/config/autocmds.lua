@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Disable formatting for these file types
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "cmake", "cpp.j2", "java" },
+  pattern = { "cpp.j2", "java" },
   callback = function()
     vim.b.autoformat = false
   end,
