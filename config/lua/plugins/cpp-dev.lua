@@ -114,6 +114,9 @@ return {
             return string.match(ctx.dirname, "amsr%-vector%-fs%-ipcbinding") ~= nil
           end,
         },
+        cmake_format = {
+          prepend_args = { "--autosort", "true" },
+        },
       },
     },
   },
