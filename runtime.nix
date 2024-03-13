@@ -1,5 +1,6 @@
 { pkgs, ... }:
 let
+  # TODO: make lazy
   # codelldb executable is not exported by default
   codelldb = (pkgs.writeShellScriptBin "codelldb" ''
     ${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb "$@"
@@ -7,8 +8,12 @@ let
 
   # cmake-lint is used as cmakelint
   cmakelint = (pkgs.writeShellScriptBin "cmakelint" ''
-    ${pkgs.cmake-format}/bin/cmake-lint "$@"
+    nix shell nixpkgs#cmake-format --command cmake-lint "$@"
   '');
+
+  make-lazy = pkg: bin: pkgs.writeShellScriptBin "${bin}" ''
+    nix shell nixpkgs#${pkg} --command ${bin} "$@"
+  '';
 in
 # Link together all runtime dependencies into one derivation
 pkgs.symlinkJoin {
@@ -20,29 +25,28 @@ pkgs.symlinkJoin {
     fd
 
     # LSP's
-    lua-language-server
-    clang-tools
-    nil
-    taplo
-    rust-analyzer
-    marksman
-    neocmakelsp
-    yaml-language-server
+    (make-lazy "clang-tools_16" "clangd")
+    (make-lazy "nil" "nil")
+    (make-lazy "taplo" "taplo")
+    (make-lazy "rust-analyzer" "rust-analyzer")
+    (make-lazy "marksman" "marksman")
+    (make-lazy "neocmakelsp" "neocmake-lsp")
+    (make-lazy "yaml-language-server" "yaml-language-server")
 
     # Debuggers
     codelldb
 
     # Formatters
-    stylua
-    nixpkgs-fmt
-    jq
+    (make-lazy "stylua" "stylua")
+    (make-lazy "nixpkgs-fmt" "nixpkgs-fmt")
+    (make-lazy "jq" "jq")
 
     # Linters
-    markdownlint-cli
-    cmake-format
+    (make-lazy "markdownlint-cli" "markdownlint-cli")
+    (make-lazy "cmake-format" "cmake-format")
     cmakelint
 
     # Bundle also cmake
-    cmake
+    (make-lazy "cmake" "cmake")
   ];
 }
