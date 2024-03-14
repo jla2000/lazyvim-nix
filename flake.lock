@@ -141,6 +141,22 @@
         "type": "github"
       }
     },
+    "nvimux-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1651482236,
+        "narHash": "sha256-X1fxwviSTWBkhYsHPH8Tn3wJpExV6OGdb3FwMP21F64=",
+        "owner": "hkupty",
+        "repo": "nvimux",
+        "rev": "a2cd0cab0acf6c37d999e0cfd199a9fa126a8dcf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hkupty",
+        "repo": "nvimux",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "blame-me-nvim": "blame-me-nvim",
@@ -149,7 +165,8 @@
         "flake-parts": "flake-parts",
         "huez-nvim": "huez-nvim",
         "neovim-nightly": "neovim-nightly",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nvimux-nvim": "nvimux-nvim"
       }
     },
     "systems": {
