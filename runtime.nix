@@ -29,7 +29,7 @@ pkgs.symlinkJoin {
     (make-lazy "taplo" "taplo")
     (make-lazy "rust-analyzer" "rust-analyzer")
     (make-lazy "marksman" "marksman")
-    (make-lazy "neocmakelsp" "neocmake-lsp")
+    (make-lazy "neocmakelsp" "neocmakelsp")
     (make-lazy "yaml-language-server" "yaml-language-server")
 
     # Debuggers
