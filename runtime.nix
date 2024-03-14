@@ -10,6 +10,14 @@ let
     nix shell nixpkgs#cmake-format --command cmake-lint "$@"
   '');
 
+  clangd = pkgs.writeShellScriptBin "clangd" ''
+    if [ -f /opt/vector-clang-tidy/bin/clangd ]; then
+      /opt/vector-clang-tidy/bin/clangd "$@"
+    else
+      nix shell nixpkgs#clang-tools_16 --command clangd "$@"
+    fi
+  '';
+
   make-lazy = pkg: bin: pkgs.writeShellScriptBin "${bin}" ''
     nix shell nixpkgs#${pkg} --command ${bin} "$@"
   '';
@@ -24,7 +32,8 @@ pkgs.symlinkJoin {
     fd
 
     # LSP's
-    (make-lazy "clang-tools_16" "clangd")
+    #(make-lazy "clang-tools_16" "clangd")
+    clangd
     (make-lazy "nil" "nil")
     (make-lazy "taplo" "taplo")
     (make-lazy "rust-analyzer" "rust-analyzer")
