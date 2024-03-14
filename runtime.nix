@@ -31,6 +31,7 @@ pkgs.symlinkJoin {
     (make-lazy "marksman" "marksman")
     (make-lazy "neocmakelsp" "neocmakelsp")
     (make-lazy "yaml-language-server" "yaml-language-server")
+    (make-lazy "lua-language-server" "lua-language-server")
 
     # Debuggers
     codelldb
