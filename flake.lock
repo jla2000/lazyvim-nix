@@ -149,24 +149,7 @@
         "flake-parts": "flake-parts",
         "huez-nvim": "huez-nvim",
         "neovim-nightly": "neovim-nightly",
-        "nixpkgs": "nixpkgs",
-        "symbol-usage-nvim": "symbol-usage-nvim"
-      }
-    },
-    "symbol-usage-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1709530001,
-        "narHash": "sha256-CPUhvJZcmCKnLUX3NtpV8RE5mIMrN1wURJmTE4tO05k=",
-        "owner": "Wansmer",
-        "repo": "symbol-usage.nvim",
-        "rev": "4c79eff2d9a817dfdb2777826af36a4bb1d5a8f0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Wansmer",
-        "repo": "symbol-usage.nvim",
-        "type": "github"
+        "nixpkgs": "nixpkgs"
       }
     },
     "systems": {
