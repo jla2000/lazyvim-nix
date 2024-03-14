@@ -3,13 +3,6 @@ local hints_enabled = true
 
 return {
   {
-    "Wansmer/symbol-usage.nvim",
-    event = "LspAttach",
-    opts = {
-      vt_position = "end_of_line",
-    },
-  },
-  {
     "simrat39/rust-tools.nvim",
     opts = {
       tools = {

@@ -12,7 +12,6 @@
     huez-nvim = { url = "github:vague2k/huez.nvim"; flake = false; };
     blame-me-nvim = { url = "github:hougesen/blame-me.nvim"; flake = false; };
     cmake-tools-nvim = { url = "github:Civitasv/cmake-tools.nvim"; flake = false; };
-    symbol-usage-nvim = { url = "github:Wansmer/symbol-usage.nvim"; flake = false; };
     cmake-gtest-nvim = { url = "github:hfn92/cmake-gtest.nvim"; flake = false; };
   };
 
