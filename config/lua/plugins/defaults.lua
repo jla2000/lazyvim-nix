@@ -55,11 +55,4 @@ return {
       },
     },
   },
-  {
-    "nvimtools/none-ls.nvim",
-    opts = function(_, opts)
-      local null_ls = require("null-ls")
-      opts.sources = nil
-    end,
-  },
 }
